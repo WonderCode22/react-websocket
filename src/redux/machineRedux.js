@@ -1,9 +1,10 @@
 import { createAction, handleActions } from 'redux-actions';
 import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:8080'
 
-const FETCH_MACHINES_REQUEST = 'FETCH_MACHINES requested';
-const FETCH_MACHINE_SUCCESS = 'FETCH_MACHINE success';
-const UPDATE_MACHINE_HEALTH = 'MACHINE_HEALTH update';
+const FETCH_MACHINES_REQUEST = 'FETCH_MACHINES_REQUEST';
+const FETCH_MACHINE_SUCCESS = 'FETCH_MACHINE_SUCCESS';
+const UPDATE_MACHINE_HEALTH = 'MACHINE_HEALTH_UPDATE';
 
 export const fetch_machines_request = createAction(FETCH_MACHINES_REQUEST);
 export const fetch_machines_success = createAction(FETCH_MACHINE_SUCCESS, machines => machines);
@@ -17,18 +18,7 @@ const initialState = {
 export const fetchMachines = () => {
     return (dispatch) => {
         dispatch(fetch_machines_request());
-        axios.get('http://localhost:8080/machines')
-        .then(response => {
-            const machines = response.data;
-            dispatch(fetch_machines_success(machines));
-        });
-    }
-}
-
-export const fetchMachineDetail = (id) => {
-    return (dispatch) => {
-        dispatch(fetch_machines_request());
-        axios.get('http://localhost:8080/machines')
+        axios.get('/machines')
         .then(response => {
             const machines = response.data;
             dispatch(fetch_machines_success(machines));
